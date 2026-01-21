@@ -1,6 +1,6 @@
 # movieapp
 
-A new Flutter project.
+Movie App built using the TMDB API. Browse trending and popular movies, view detailed descriptions, cast information, and watch trailers—all presented with a clean, modern UI and high-quality movie posters inspired by Figma designs.
 
 ## Getting Started
 
