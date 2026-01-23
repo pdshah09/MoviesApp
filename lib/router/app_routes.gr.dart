@@ -84,6 +84,7 @@ class MovieDetailRoute extends PageRouteInfo<MovieDetailRouteArgs> {
   }) : super(
          MovieDetailRoute.name,
          args: MovieDetailRouteArgs(movieId: movieId, key: key),
+         rawPathParams: {'movieId': movieId},
          initialChildren: children,
        );
 
@@ -92,7 +93,11 @@ class MovieDetailRoute extends PageRouteInfo<MovieDetailRouteArgs> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<MovieDetailRouteArgs>();
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<MovieDetailRouteArgs>(
+        orElse: () =>
+            MovieDetailRouteArgs(movieId: pathParams.getInt('movieId')),
+      );
       return MovieDetail(args.movieId, key: args.key);
     },
   );
@@ -125,7 +130,7 @@ class MovieDetailRouteArgs {
 /// [VideoPage]
 class VideoPageRoute extends PageRouteInfo<VideoPageRouteArgs> {
   VideoPageRoute({
-    required String movieVideo,
+    required MovieVideo movieVideo,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -148,7 +153,7 @@ class VideoPageRoute extends PageRouteInfo<VideoPageRouteArgs> {
 class VideoPageRouteArgs {
   const VideoPageRouteArgs({required this.movieVideo, this.key});
 
-  final String movieVideo;
+  final MovieVideo movieVideo;
 
   final Key? key;
 

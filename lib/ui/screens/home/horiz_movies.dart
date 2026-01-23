@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp/data/models/movie.dart';
+import 'package:movieapp/data/models/movie_results.dart';
 import 'package:movieapp/ui/widgets/movie_widget.dart';
 import 'package:movieapp/utils/utils.dart';
 
 class HorizontalMovies extends StatelessWidget {
   final MovieType movieType;
   final OnMovieTap onMovieTap;
-  final List<Movie> movies;
+  final List<MovieResults> movies;
   const HorizontalMovies({
     required this.movieType,
     required this.onMovieTap,
@@ -22,8 +22,13 @@ class HorizontalMovies extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: movies.length,
         itemBuilder: (context, index) {
+          final imageUrl = getImageUrl(
+            ImageSize.small,
+            movies[index].posterPath,
+          );
           return MovieWidget(
-            movie: movies[index],
+            movieId: movies[index].id,
+            movieUrl: imageUrl,
             onMovieTap: onMovieTap,
             movieType: movieType,
           );

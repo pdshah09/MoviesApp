@@ -9,6 +9,48 @@ part of 'providers.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
+@ProviderFor(movieAPIService)
+final movieAPIServiceProvider = MovieAPIServiceProvider._();
+
+final class MovieAPIServiceProvider
+    extends
+        $FunctionalProvider<MovieAPIService, MovieAPIService, MovieAPIService>
+    with $Provider<MovieAPIService> {
+  MovieAPIServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'movieAPIServiceProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$movieAPIServiceHash();
+
+  @$internal
+  @override
+  $ProviderElement<MovieAPIService> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  MovieAPIService create(Ref ref) {
+    return movieAPIService(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(MovieAPIService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<MovieAPIService>(value),
+    );
+  }
+}
+
+String _$movieAPIServiceHash() => r'1fcc456233061aa0ae60254828e4d2e61c6ba3cf';
+
 @ProviderFor(movieViewModel)
 final movieViewModelProvider = MovieViewModelProvider._();
 
@@ -46,53 +88,7 @@ final class MovieViewModelProvider
   }
 }
 
-String _$movieViewModelHash() => r'0d3337a89171d3592e490518cf9a99861276ac7b';
-
-@ProviderFor(genresList)
-final genresListProvider = GenresListProvider._();
-
-final class GenresListProvider
-    extends
-        $FunctionalProvider<
-          List<GenreState>,
-          List<GenreState>,
-          List<GenreState>
-        >
-    with $Provider<List<GenreState>> {
-  GenresListProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'genresListProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$genresListHash();
-
-  @$internal
-  @override
-  $ProviderElement<List<GenreState>> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  List<GenreState> create(Ref ref) {
-    return genresList(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<GenreState> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<GenreState>>(value),
-    );
-  }
-}
-
-String _$genresListHash() => r'043c43bb14df9f04af70a27e2d15c1bc865fe1c7';
+String _$movieViewModelHash() => r'391332b31ebd14a673e656f93321ac7c0c2dfdc2';
 
 @ProviderFor(appRouter)
 final appRouterProvider = AppRouterProvider._();

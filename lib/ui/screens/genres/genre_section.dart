@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movieapp/data/models/genre.dart';
 import 'package:movieapp/ui/theme/theme.dart';
 
 class GenreState {
-  final String genre;
+  final Genre genre;
   final bool isSelected;
 
   GenreState({required this.genre, required this.isSelected});
@@ -99,32 +100,27 @@ class _GenreSectionState extends ConsumerState<GenreSection> {
   }
 
   List<Widget> getGenreChips() {
-    return widget.genreStates.asMap().entries.map((entry) {
-      final index = entry.key;
-      final genreState = entry.value;
-
-      return FilterChip(
-        backgroundColor: searchBarBackground,
-        selectedColor: buttonGrey,
-        label: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(
-            genreState.genre,
+    return [
+      for (var i = 0; i < widget.genreStates.length; i++)
+        FilterChip(
+          backgroundColor: searchBarBackground,
+          selectedColor: buttonGrey,
+          label: Text(
+            widget.genreStates[i].genre.name,
             style: Theme.of(context).textTheme.labelSmall,
           ),
+          selected: widget.genreStates[i].isSelected,
+          onSelected: (selected) {
+            setState(() {
+              widget.genreStates[i] = GenreState(
+                genre: widget.genreStates[i].genre,
+                isSelected: selected,
+              );
+              widget.onGenreSelected(getSelectedGenres());
+            });
+          },
         ),
-        selected: genreState.isSelected,
-        onSelected: (selected) {
-          setState(() {
-            widget.genreStates[index] = GenreState(
-              genre: genreState.genre,
-              isSelected: selected,
-            );
-          });
-          widget.onGenreSelected(getSelectedGenres());
-        },
-      );
-    }).toList();
+    ];
   }
 
   List<GenreState> getSelectedGenres() {

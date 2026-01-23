@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
+import 'package:movieapp/ui/screens/favorites/favorite_screen.dart';
 import 'package:movieapp/ui/screens/genres/genre_screen.dart';
 import 'package:movieapp/ui/screens/home/home_screen.dart';
 import 'package:movieapp/ui/screens/videos/video_page.dart';
@@ -24,8 +25,8 @@ class _MainScreenState extends State<MainScreen> {
 
     screens.add(const HomeScreen());
     screens.add(const GenreScreen());
-    // screens.add(const Center(child: Text("Favourites")));
-    screens.add(VideoPage('6_ZtsCEtecA'));
+    screens.add(const FavoriteScreen());
+    // screens.add(VideoPage('6_ZtsCEtecA'));
   }
 
   @override
@@ -48,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
           //   ),
           //   child:
           BottomNavigationBar(
-            backgroundColor: Colors.black87,
+            // backgroundColor: Colors.black87,
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white60,
             items: const [

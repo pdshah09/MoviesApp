@@ -43,7 +43,7 @@ class _GenreScreenState extends ConsumerState<GenreScreen> {
 
   void buildGenreState() {
     genreStates.clear();
-    for (final genre in movieViewModel.movieGenres) {
+    for (final genre in movieViewModel.movieGenres!) {
       genreStates.add(GenreState(genre: genre, isSelected: false));
     }
   }

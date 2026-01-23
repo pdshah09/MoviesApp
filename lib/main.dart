@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:movieapp/providers.dart';
 import 'package:movieapp/ui/theme/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:lumberdash/lumberdash.dart';
+import 'package:colorize_lumberdash/colorize_lumberdash.dart';
 
-// 375
-void main() {
+// 440
+
+/// This is the main entry point for Flutter
+/// Use the runApp method to start your app
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  putLumberdashToWork(withClients: [ColorizeLumberdash()]);
+  await dotenv.load(fileName: '.env');
   runApp(const ProviderScope(child: MainApp()));
 }
 

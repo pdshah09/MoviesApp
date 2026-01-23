@@ -2,18 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movieapp/data/models/movie.dart';
 import 'package:movieapp/providers.dart';
 import 'package:movieapp/utils/utils.dart';
 
 enum MovieType { Trending, TopRated, NowPlaying, Popular }
 
 class MovieWidget extends ConsumerStatefulWidget {
-  final Movie movie;
+  final int movieId;
+  final String movieUrl;
   final OnMovieTap onMovieTap;
   final MovieType movieType;
   const MovieWidget({
-    required this.movie,
+    required this.movieId,
+    required this.movieUrl,
     required this.onMovieTap,
     required this.movieType,
     super.key,
@@ -35,7 +36,7 @@ class _MovieWidgetState extends ConsumerState<MovieWidget>
   @override
   void initState() {
     super.initState();
-    uniqueHeroTag = widget.movie.image + widget.movieType.name;
+    uniqueHeroTag = widget.movieUrl + widget.movieType.name;
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _controller.reset();
@@ -65,9 +66,9 @@ class _MovieWidgetState extends ConsumerState<MovieWidget>
               borderRadius: BorderRadius.circular(8),
               child:
                   CachedNetworkImage(
-                        imageUrl: widget.movie.image,
+                        imageUrl: widget.movieUrl,
                         alignment: Alignment.center,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                         height: 100,
                         width: 142,
                       )
@@ -77,7 +78,7 @@ class _MovieWidgetState extends ConsumerState<MovieWidget>
                         onComplete: (controller) {
                           if (animateImage) {
                             animateImage = false;
-                            widget.onMovieTap(widget.movie.movieId);
+                            widget.onMovieTap(widget.movieId);
                           }
                         },
                       )

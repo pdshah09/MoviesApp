@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp/data/models/movie_videos.dart';
 import 'package:movieapp/ui/screens/main_screen.dart';
 import 'package:movieapp/ui/screens/home/home_screen.dart';
 import 'package:movieapp/ui/screens/genres/genre_screen.dart';
