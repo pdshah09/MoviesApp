@@ -1,12 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movieapp/data/models/favorite.dart';
+import 'package:movieapp/data/database/models/favorite.dart';
 import 'package:movieapp/ui/movie_viewmodel.dart';
 import 'package:movieapp/utils/utils.dart';
 
 class FavoriteRow extends StatelessWidget {
-  final Favorite favorite;
+  final DBFavorite favorite;
   final MovieViewModel movieViewModel;
   final OnMovieTap onMovieTap;
   final OnFavoriteResultsTap onFavoritesTap;
@@ -20,76 +20,75 @@ class FavoriteRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width - 25;
-    final textWidth = screenWidth - 132;
-    final imageUrl = favorite.image;
+    final screenWidth = MediaQuery.of(context).size.width - 32;
+    final textWidth = screenWidth - 150;
+    final imageUrl = movieViewModel.getImageUrl(
+      ImageSize.small,
+      favorite.posterPath,
+    );
 
-    if (imageUrl.isNotEmpty) {
-      return GestureDetector(
-        onTap: () => onMovieTap(favorite.movieId),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            SizedBox(
-              height: 148,
-              width: 100,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: CachedNetworkImage(
-                  imageUrl: imageUrl,
-                  alignment: Alignment.topCenter,
-                  fit: BoxFit.cover,
-                  height: 140,
-                  width: 100,
+    return GestureDetector(
+      onTap: () => onMovieTap(favorite.movieId),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          addHorizontalSpace(16),
+          SizedBox(
+            height: 140,
+            width: 100,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: imageUrl != null
+                  ? CachedNetworkImage(
+                      imageUrl: imageUrl,
+                      alignment: Alignment.topCenter,
+                      fit: BoxFit.cover,
+                      height: 140,
+                      width: 100,
+                    )
+                  : emptyWidget,
+            ),
+          ),
+          addHorizontalSpace(16),
+          Stack(
+            children: [
+              Positioned(
+                top: 8,
+                right: 8,
+                child: IconButton(
+                  onPressed: () => onFavoritesTap(favorite),
+                  icon: favorite.favorite
+                      ? const Icon(Icons.favorite_outlined, color: Colors.white)
+                      : const Icon(Icons.favorite_border, color: Colors.white),
                 ),
               ),
-            ),
-            addHorizontalSpace(16),
-            Stack(
-              children: [
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: IconButton(
-                    onPressed: () => onFavoritesTap(favorite),
-                    icon: favorite.favorite
-                        ? const Icon(
-                            Icons.favorite_outlined,
-                            color: Colors.white,
-                          )
-                        : const Icon(
-                            Icons.favorite_border,
-                            color: Colors.white,
-                          ),
-                  ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: textWidth,
-                      child: AutoSizeText(
-                        'Title',
-                        maxLines: 1,
-                        minFontSize: 10,
-                        style: Theme.of(context).textTheme.labelLarge,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: textWidth,
+                    child: AutoSizeText(
+                      favorite.title,
+                      maxLines: 1,
+                      minFontSize: 10,
+                      style: Theme.of(context).textTheme.labelLarge,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    addVerticalSpace(4),
-                    Text('1972', style: Theme.of(context).textTheme.bodyMedium),
-                    addVerticalSpace(4),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Container();
-    }
+                  ),
+                  addVerticalSpace(4),
+                  Text(
+                    yearFormat.format(favorite.releaseDate),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  addVerticalSpace(4),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lumberdash/lumberdash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movieapp/data/database/models/database_models.dart';
 import 'package:movieapp/data/models/movie_credits.dart';
 import 'package:movieapp/data/models/movie_details.dart';
 import 'package:movieapp/data/models/movie_videos.dart';
@@ -29,10 +31,12 @@ class MovieDetail extends ConsumerStatefulWidget {
 }
 
 class _MovieDetailState extends ConsumerState<MovieDetail> {
-  final favoriteNotifier = ValueNotifier<bool>(false);
   late MovieViewModel movieViewModel;
   MovieCredits? credits;
   MovieVideos? movieVideos;
+  List<DBFavorite> favorites = [];
+  final favoriteNotifier = ValueNotifier<bool>(false);
+  int currentFavoriteId = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +46,20 @@ class _MovieDetailState extends ConsumerState<MovieDetail> {
       loading: () => const NotReady(),
       data: (viewModel) {
         movieViewModel = viewModel;
+        getFavorites();
         return buildScreen();
       },
     );
+  }
+
+  Future getFavorites() async {
+    favorites = await movieViewModel.getFavorites();
+    favoriteNotifier.value = isMovieFavorite(widget.movieId);
+  }
+
+  bool isMovieFavorite(int id) {
+    return favorites.firstWhereOrNull((favorite) => favorite.movieId == id) !=
+        null;
   }
 
   Widget buildScreen() {
@@ -66,7 +81,7 @@ class _MovieDetailState extends ConsumerState<MovieDetail> {
           child: Scaffold(
             appBar: AppBar(
               backgroundColor: screenBackground,
-              leading: BackButton(
+              leading: CupertinoNavigationBarBackButton(
                 color: Colors.white,
                 onPressed: () {
                   context.router.maybePopTop();
@@ -89,7 +104,13 @@ class _MovieDetailState extends ConsumerState<MovieDetail> {
                         SliverList(
                           delegate: SliverChildListDelegate([
                             Stack(
-                              children: [DetailImage(details: movieDetails)],
+                              children: [
+                                DetailImage(
+                                  details: movieDetails,
+                                  movieConfiguration:
+                                      movieViewModel.movieConfiguration!,
+                                ),
+                              ],
                             ),
                             GenreRow(genres: movieDetails.genres),
                             MovieOverview(details: movieDetails),
@@ -105,8 +126,17 @@ class _MovieDetailState extends ConsumerState<MovieDetail> {
                                       favoriteSelected: favoriteNotifier.value,
                                       onFavoriteSelected: () async {
                                         if (favoriteNotifier.value) {
+                                          if (currentFavoriteId != -1) {
+                                            movieViewModel.removeFavorite(
+                                              currentFavoriteId,
+                                            );
+                                          }
                                           favoriteNotifier.value = false;
                                         } else {
+                                          currentFavoriteId = movieDetails.id;
+                                          await movieViewModel.saveFavorite(
+                                            movieDetails,
+                                          );
                                           favoriteNotifier.value = true;
                                         }
                                       },
@@ -148,7 +178,11 @@ class _MovieDetailState extends ConsumerState<MovieDetail> {
                             ),
                           ]),
                         ),
-                        HorizontalCast(castList: credits?.cast ?? []),
+                        HorizontalCast(
+                          movieViewModel: movieViewModel,
+                          castList: credits?.cast ?? [],
+                        ),
+                        SliverToBoxAdapter(child: const SizedBox(height: 30)),
                       ],
                     ),
                   ),

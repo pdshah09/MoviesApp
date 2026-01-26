@@ -1,17 +1,10 @@
-# movieapp
+# MovieApp
 
 Movie App
 . Browse trending and popular movies, view detailed descriptions, cast information, and watch trailers—all presented with a clean, modern UI and high-quality movie posters inspired by Figma designs.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 📸 Screenshots
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Modern UI Screenshot](https://github.com/pdshah09/MoviesApp/blob/main/screenshots/display.png)

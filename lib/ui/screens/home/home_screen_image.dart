@@ -30,7 +30,7 @@ class HomeScreenImage extends ConsumerWidget {
         itemCount: movieViewModel.nowPlayingMovies.length,
         itemBuilder: (context, index, realIndex) {
           final currentMovie = movieViewModel.nowPlayingMovies[index];
-          final imageUrl = getImageUrl(
+          final imageUrl = movieViewModel.getImageUrl(
             ImageSize.large,
             currentMovie.backdropPath,
           );
@@ -42,7 +42,7 @@ class HomeScreenImage extends ConsumerWidget {
               onMovieTap(currentMovie.id);
             },
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6.0),
               child: Stack(
                 children: [
                   Align(
@@ -51,13 +51,15 @@ class HomeScreenImage extends ConsumerWidget {
                       tag: uniqueHeroTag,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: CachedNetworkImage(
-                          imageUrl: imageUrl,
-                          alignment: Alignment.center,
-                          fit: BoxFit.cover,
-                          height: 374,
-                          width: screenWidth,
-                        ),
+                        child: imageUrl != null
+                            ? CachedNetworkImage(
+                                imageUrl: imageUrl,
+                                alignment: Alignment.center,
+                                fit: BoxFit.cover,
+                                height: 374,
+                                width: screenWidth,
+                              )
+                            : emptyWidget,
                       ),
                     ),
                   ),

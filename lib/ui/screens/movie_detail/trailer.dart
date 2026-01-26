@@ -45,15 +45,20 @@ class _TrailerState extends ConsumerState<Trailer> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      CachedNetworkImage(
-                        httpHeaders: const {'Access-Control-Allow-Origin': '*'},
-                        imageUrl: youtubeImageFromId(movieVideo.key),
-                        alignment: Alignment.topLeft,
-                        // fit: BoxFit.fitWidth,
-                        fit: BoxFit.fitHeight,
-                        height: 98,
-                        // width: 200,
-                        // width: 142,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: CachedNetworkImage(
+                          httpHeaders: const {
+                            'Access-Control-Allow-Origin': '*',
+                          },
+                          imageUrl: youtubeImageFromId(movieVideo.key),
+                          alignment: Alignment.topLeft,
+                          // fit: BoxFit.fitWidth,
+                          fit: BoxFit.fitHeight,
+                          height: 98,
+                          // width: 200,
+                          // width: 142,
+                        ),
                       ),
                       AutoSizeText(
                         movieVideo.name,

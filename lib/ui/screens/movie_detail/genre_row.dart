@@ -18,11 +18,11 @@ class _GenreRowState extends State<GenreRow>
   @override
   void initState() {
     super.initState();
-    super.initState();
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
-    )..forward();
+    )..forward(); // Start animation on initailization
+
     _offsetAnimation = Tween<Offset>(
       begin: const Offset(1, 0),
       end: Offset.zero,

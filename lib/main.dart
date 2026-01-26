@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:lumberdash/lumberdash.dart';
 import 'package:colorize_lumberdash/colorize_lumberdash.dart';
 
-// 440
+// 480
 
 /// This is the main entry point for Flutter
 /// Use the runApp method to start your app

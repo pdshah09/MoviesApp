@@ -1,14 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movieapp/data/models/genre.dart';
+import 'package:movieapp/data/models/genre_state.dart';
 import 'package:movieapp/ui/theme/theme.dart';
-
-class GenreState {
-  final Genre genre;
-  final bool isSelected;
-
-  GenreState({required this.genre, required this.isSelected});
-}
 
 typedef OnGenreSelected = void Function(List<GenreState>);
 typedef OnGenresExpanded = void Function(bool);
@@ -32,9 +26,13 @@ class GenreSection extends ConsumerStatefulWidget {
 }
 
 class _GenreSectionState extends ConsumerState<GenreSection> {
+  List<Widget> chips = [];
+
   @override
   Widget build(BuildContext context) {
-    final genreChips = getGenreChips();
+    if (chips.isEmpty) {
+      chips = getGenreChips();
+    }
     return SliverList(
       delegate: SliverChildListDelegate([
         ExpansionPanelList(
@@ -80,7 +78,7 @@ class _GenreSectionState extends ConsumerState<GenreSection> {
                 padding: const EdgeInsets.only(left: 16.0, right: 16),
                 child: GridView.builder(
                   shrinkWrap: true,
-                  itemCount: genreChips.length,
+                  itemCount: chips.length,
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 100,
                     crossAxisSpacing: 16,
@@ -88,7 +86,7 @@ class _GenreSectionState extends ConsumerState<GenreSection> {
                     mainAxisSpacing: 0,
                   ),
                   itemBuilder: (context, index) {
-                    return genreChips[index];
+                    return chips[index];
                   },
                 ),
               ),
@@ -100,27 +98,24 @@ class _GenreSectionState extends ConsumerState<GenreSection> {
   }
 
   List<Widget> getGenreChips() {
-    return [
-      for (var i = 0; i < widget.genreStates.length; i++)
-        FilterChip(
-          backgroundColor: searchBarBackground,
-          selectedColor: buttonGrey,
-          label: Text(
-            widget.genreStates[i].genre.name,
-            style: Theme.of(context).textTheme.labelSmall,
-          ),
-          selected: widget.genreStates[i].isSelected,
-          onSelected: (selected) {
-            setState(() {
-              widget.genreStates[i] = GenreState(
-                genre: widget.genreStates[i].genre,
-                isSelected: selected,
-              );
-              widget.onGenreSelected(getSelectedGenres());
-            });
-          },
-        ),
-    ];
+    return widget.genreStates.mapIndexed((index, element) {
+      final genre = widget.genreStates[index].genre;
+      return FilterChip(
+        backgroundColor: searchBarBackground,
+        selectedColor: buttonGrey,
+        label: Text(genre.name, style: Theme.of(context).textTheme.labelSmall),
+        selected: widget.genreStates[index].isSelected,
+        onSelected: (selected) {
+          setState(() {
+            widget.genreStates[index] = GenreState(
+              genre: genre,
+              isSelected: !widget.genreStates[index].isSelected,
+            );
+            widget.onGenreSelected(getSelectedGenres());
+          });
+        },
+      );
+    }).toList();
   }
 
   List<GenreState> getSelectedGenres() {

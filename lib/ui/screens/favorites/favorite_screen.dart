@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movieapp/data/database/models/database_models.dart';
 import 'package:movieapp/data/models/favorite.dart';
 import 'package:movieapp/providers.dart';
 import 'package:movieapp/router/app_routes.dart';
@@ -22,8 +23,8 @@ class FavoriteScreen extends ConsumerStatefulWidget {
 class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
   late MovieViewModel movieViewModel;
   List<Favorite> currentFavorites = [];
-  Sorting selectedSort = Sorting.aToz;
   final valueNotifier = ValueNotifier<List<Favorite>>([]);
+  Sorting selectedSort = Sorting.aToz;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
 
   Widget buildScreen() {
     return SafeArea(
-      child: StreamBuilder<List<Favorite>>(
+      child: StreamBuilder<List<DBFavorite>>(
         stream: getFavoriteStream(),
         builder: (context, snapshot) {
           if ((snapshot.connectionState != ConnectionState.active) &&
@@ -84,11 +85,8 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
                               MovieDetailRoute(movieId: movieId),
                             );
                           },
-                          onFavoritesTap: (Favorite favorite) {
-                            setState(() {
-                              favorite.favorite = !favorite.favorite;
-                              movieViewModel.updateFavorite(favorite);
-                            });
+                          onFavoritesTap: (DBFavorite favorite) {
+                            removeFavorite(favorite);
                           },
                         ),
                       ],
@@ -103,7 +101,7 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
     );
   }
 
-  Stream<List<Favorite>> getFavoriteStream() {
+  Stream<List<DBFavorite>> getFavoriteStream() {
     return movieViewModel.streamFavorites();
   }
 
@@ -126,9 +124,8 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
     valueNotifier.value = currentFavorites;
   }
 
-  Future removeFavorite(Favorite favorite) async {
-    setState(() {
-      currentFavorites.remove(favorite);
-    });
+  Future removeFavorite(DBFavorite favorite) async {
+    await movieViewModel.removeFavorite(favorite.id);
+    setState(() {});
   }
 }

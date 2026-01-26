@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:movieapp/basics/lib1.dart';
 import 'package:movieapp/basics/lib2.dart' as lib2;
 

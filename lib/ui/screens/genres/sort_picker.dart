@@ -7,6 +7,7 @@ typedef OnSortSelected = void Function(Sorting);
 class SortPicker extends ConsumerStatefulWidget {
   final bool useSliver;
   final OnSortSelected onSortSelected;
+
   const SortPicker({
     required this.useSliver,
     required this.onSortSelected,
@@ -19,6 +20,7 @@ class SortPicker extends ConsumerStatefulWidget {
 
 class _SortPickerState extends ConsumerState<SortPicker> {
   Sorting selectedSort = Sorting.aToz;
+
   @override
   Widget build(BuildContext context) {
     if (widget.useSliver) {

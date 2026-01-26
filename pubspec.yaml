@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^7.0.0
+  shared_preferences: ^2.5.4
   cupertino_icons: ^1.0.8
   flutter_riverpod: ^3.1.0
   riverpod_annotation: ^4.0.0
@@ -23,13 +24,21 @@ dependencies:
   auto_size_text: ^3.0.0
   flutter_animate: ^4.5.2
   collection: ^1.19.1
+  drift: ^2.30.1
+  drift_flutter: ^0.2.8
   intl: ^0.20.2
   freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
   dio: ^5.9.0
+  path: ^1.9.1
+  path_provider: ^2.1.5
+  sqlite3_flutter_libs: ^0.5.41
+  infinite_scroll_pagination: ^5.1.1
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
   flutter_launcher_icons: ^0.14.4
   package_rename: ^1.10.0
@@ -43,6 +52,7 @@ dev_dependencies:
   flutter_dotenv: ^6.0.0
   lumberdash: ^3.0.0
   colorize_lumberdash: ^3.0.0
+  drift_dev: ^2.30.1
 
 flutter_launcher_icons:
   android: "launcher_icon"

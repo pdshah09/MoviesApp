@@ -63,7 +63,7 @@ class _MovieWidgetState extends ConsumerState<MovieWidget>
           child: Hero(
             tag: uniqueHeroTag,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(6),
               child:
                   CachedNetworkImage(
                         imageUrl: widget.movieUrl,
@@ -82,9 +82,9 @@ class _MovieWidgetState extends ConsumerState<MovieWidget>
                           }
                         },
                       )
-                      .scaleXY(begin: 1, end: 1.1, duration: 200.ms)
-                      .then(delay: 100.ms)
-                      .scaleXY(begin: 1.1, end: 1.0, duration: 200.ms),
+                      .scaleXY(begin: 1, end: 1.1, duration: 100.ms)
+                      .then(delay: 90.ms)
+                      .scaleXY(begin: 1.1, end: 1.0, duration: 90.ms),
             ),
           ),
         ),

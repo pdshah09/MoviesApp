@@ -88,7 +88,81 @@ final class MovieViewModelProvider
   }
 }
 
-String _$movieViewModelHash() => r'391332b31ebd14a673e656f93321ac7c0c2dfdc2';
+String _$movieViewModelHash() => r'b4c76679d04b2ee2457c4c0d80354c1087d7795c';
+
+@ProviderFor(sharedPrefs)
+final sharedPrefsProvider = SharedPrefsProvider._();
+
+final class SharedPrefsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<SharedPreferences>,
+          SharedPreferences,
+          FutureOr<SharedPreferences>
+        >
+    with
+        $FutureModifier<SharedPreferences>,
+        $FutureProvider<SharedPreferences> {
+  SharedPrefsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'sharedPrefsProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$sharedPrefsHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<SharedPreferences> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<SharedPreferences> create(Ref ref) {
+    return sharedPrefs(ref);
+  }
+}
+
+String _$sharedPrefsHash() => r'eba279b4efb2d4ef41070faedd17991e4ffd9384';
+
+@ProviderFor(prefs)
+final prefsProvider = PrefsProvider._();
+
+final class PrefsProvider
+    extends $FunctionalProvider<AsyncValue<Prefs>, Prefs, FutureOr<Prefs>>
+    with $FutureModifier<Prefs>, $FutureProvider<Prefs> {
+  PrefsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'prefsProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$prefsHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<Prefs> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<Prefs> create(Ref ref) {
+    return prefs(ref);
+  }
+}
+
+String _$prefsHash() => r'286d5a6891847e65488b246f20ce8495331773ef';
 
 @ProviderFor(appRouter)
 final appRouterProvider = AppRouterProvider._();
@@ -130,3 +204,41 @@ final class AppRouterProvider
 }
 
 String _$appRouterHash() => r'fc1228daa214cc1ad475cfdeafc6db36a6a237b5';
+
+@ProviderFor(driftDatabase)
+final driftDatabaseProvider = DriftDatabaseProvider._();
+
+final class DriftDatabaseProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<IDatabase>,
+          IDatabase,
+          FutureOr<IDatabase>
+        >
+    with $FutureModifier<IDatabase>, $FutureProvider<IDatabase> {
+  DriftDatabaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'driftDatabaseProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$driftDatabaseHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<IDatabase> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<IDatabase> create(Ref ref) {
+    return driftDatabase(ref);
+  }
+}
+
+String _$driftDatabaseHash() => r'7c0b72c8f00b7b8b3c2d10f5c3c013199c35589d';

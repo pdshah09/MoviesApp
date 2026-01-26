@@ -14,5 +14,6 @@ sealed class Genre with _$Genre {
 @freezed
 sealed class Genres with _$Genres {
   const factory Genres({required List<Genre> genres}) = _Genres;
+
   factory Genres.fromJson(Map<String, dynamic> json) => _$GenresFromJson(json);
 }

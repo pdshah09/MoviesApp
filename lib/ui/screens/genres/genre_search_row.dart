@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movieapp/ui/theme/theme.dart';
-
-typedef OnSearch = void Function(String searchString);
+import 'package:movieapp/utils/utils.dart';
 
 class GenreSearchRow extends ConsumerStatefulWidget {
   final OnSearch onSearch;
@@ -15,15 +14,21 @@ class GenreSearchRow extends ConsumerStatefulWidget {
 class _GenreSearchRowState extends ConsumerState<GenreSearchRow> {
   late TextEditingController movieTextController;
   final FocusNode textFocusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
     movieTextController = TextEditingController(text: "");
+
+    movieTextController.addListener(() {
+      setState(() {}); // rebuild when text changes
+    });
   }
 
   @override
   void dispose() {
     movieTextController.dispose();
+    textFocusNode.dispose();
     super.dispose();
   }
 
@@ -48,9 +53,6 @@ class _GenreSearchRowState extends ConsumerState<GenreSearchRow> {
               autocorrect: false,
               decoration: InputDecoration(
                 filled: true,
-                focusColor: searchBarBackground,
-                focusedBorder: null,
-                enabledBorder: null,
                 fillColor: searchBarBackground,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -58,12 +60,16 @@ class _GenreSearchRowState extends ConsumerState<GenreSearchRow> {
                 ),
                 hintText: 'movie name, genre',
                 hintStyle: body1Regular.copyWith(color: posterBorder),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    movieTextController.clear();
-                  },
-                  icon: const Icon(Icons.close, color: Colors.white),
-                ),
+
+                suffixIcon: movieTextController.text.isNotEmpty
+                    ? IconButton(
+                        onPressed: () {
+                          movieTextController.clear();
+                        },
+                        icon: const Icon(Icons.close, color: Colors.white),
+                      )
+                    : null,
+
                 prefixIcon: IconButton(
                   icon: const Icon(Icons.search, color: Colors.white),
                   onPressed: () {
