@@ -1,7 +1,9 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:movieapp/data/database/database_interface.dart';
 import 'package:movieapp/data/database/drift/drift_database.dart';
+import 'package:movieapp/ui/menus.dart';
 import 'package:movieapp/utils/prefs.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -16,16 +18,32 @@ final heroTagProvider = StateProvider<String>((ref) {
   return '';
 });
 
+final searchTextProvider = StateProvider<String>((ref) {
+  return '';
+});
+
+final currentIndexProvider = StateProvider<int>((ref) {
+  return 0;
+});
+
 @Riverpod(keepAlive: true)
-MovieAPIService movieAPIService(Ref ref) => MovieAPIService();
+MenuManager menuManager(Ref ref) => MenuManager(ref);
+
+@Riverpod(keepAlive: true)
+EventBus eventBus(Ref ref) => EventBus();
+
+@Riverpod(keepAlive: true)
+Future<MovieAPIService> movieAPIService(Ref ref) async {
+  final service = MovieAPIService();
+  await service.init();
+  return service;
+}
 
 @Riverpod(keepAlive: true)
 Future<MovieViewModel> movieViewModel(Ref ref) async {
   final database = await ref.read(driftDatabaseProvider.future);
-  final model = MovieViewModel(
-    database: database,
-    movieAPIService: ref.read(movieAPIServiceProvider),
-  );
+  final service = await ref.read(movieAPIServiceProvider.future);
+  final model = MovieViewModel(database: database, movieAPIService: service);
   await model.setup();
   return model;
 }

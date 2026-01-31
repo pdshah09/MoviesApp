@@ -1,7 +1,6 @@
 import 'package:lumberdash/lumberdash.dart';
 import 'package:movieapp/data/database/database_interface.dart';
 import 'package:movieapp/data/database/models/database_models.dart';
-import 'package:movieapp/data/models/favorite.dart';
 import 'package:movieapp/data/models/genre.dart';
 import 'package:movieapp/data/models/movie_configuration.dart';
 import 'package:movieapp/data/models/movie_credits.dart';
@@ -17,8 +16,6 @@ class MovieViewModel {
   final IDatabase database;
   MovieConfiguration? movieConfiguration;
   List<Genre>? movieGenres;
-  Stream<List<Favorite>>? favoriteStream;
-  List<Favorite>? favoriteList;
   List<MovieResults> trendingMovies = [];
   List<MovieResults> topRatedMovies = [];
   List<MovieResults> popularMovies = [];

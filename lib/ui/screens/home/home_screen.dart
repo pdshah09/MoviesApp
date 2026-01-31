@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:movieapp/data/models/movie.dart';
 import 'package:movieapp/data/models/movie_response.dart';
 import 'package:movieapp/providers.dart';
 import 'package:movieapp/router/app_routes.dart';
@@ -12,7 +11,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movieapp/ui/theme/theme.dart';
 import 'package:movieapp/ui/widgets/movie_widget.dart';
 import 'package:movieapp/ui/widgets/not_ready.dart';
-import 'package:movieapp/utils/utils.dart';
 
 @RoutePage(name: 'HomeRoute')
 class HomeScreen extends ConsumerStatefulWidget {

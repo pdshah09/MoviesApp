@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:movieapp/utils/utils.dart';
 
 const String movieAPIUrl = 'https://api.themoviedb.org/3/';
 
@@ -22,11 +24,38 @@ const apiKeyParameterName = 'api_key';
 
 class MovieAPIService {
   late final Dio dio;
-  final String apiKey = dotenv.env['TMDB_KEY']!;
+  late String apiKey;
 
   final showDebugInfo = false;
 
-  MovieAPIService() {
+  MovieAPIService();
+
+  Future init() async {
+    if (!isWeb()) {
+      apiKey = dotenv.env['TMDB_KEY']!;
+      configureDio();
+    } else {
+      await webLoad();
+    }
+  }
+
+  Future webLoad() async {
+    try {
+      final dotEnvString = await rootBundle.loadString('dotenv');
+      if (dotEnvString.contains('TMDB_KEY')) {
+        final parts = dotEnvString.split('=');
+        if (parts.length == 2) {
+          apiKey = parts[1];
+          if (apiKey.contains("'")) {
+            apiKey = apiKey.replaceAll("'", "");
+          }
+        }
+      } else {
+        apiKey = dotEnvString;
+      }
+    } catch (e) {
+      print(e);
+    }
     configureDio();
   }
 

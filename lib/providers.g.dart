@@ -9,13 +9,99 @@ part of 'providers.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
+@ProviderFor(menuManager)
+final menuManagerProvider = MenuManagerProvider._();
+
+final class MenuManagerProvider
+    extends $FunctionalProvider<MenuManager, MenuManager, MenuManager>
+    with $Provider<MenuManager> {
+  MenuManagerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'menuManagerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$menuManagerHash();
+
+  @$internal
+  @override
+  $ProviderElement<MenuManager> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  MenuManager create(Ref ref) {
+    return menuManager(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(MenuManager value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<MenuManager>(value),
+    );
+  }
+}
+
+String _$menuManagerHash() => r'a9e8709df311fbd3964678108faded0081f21705';
+
+@ProviderFor(eventBus)
+final eventBusProvider = EventBusProvider._();
+
+final class EventBusProvider
+    extends $FunctionalProvider<EventBus, EventBus, EventBus>
+    with $Provider<EventBus> {
+  EventBusProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'eventBusProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$eventBusHash();
+
+  @$internal
+  @override
+  $ProviderElement<EventBus> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  EventBus create(Ref ref) {
+    return eventBus(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(EventBus value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<EventBus>(value),
+    );
+  }
+}
+
+String _$eventBusHash() => r'9f379482073cc2c43036ff2e369cba327a87d7bb';
+
 @ProviderFor(movieAPIService)
 final movieAPIServiceProvider = MovieAPIServiceProvider._();
 
 final class MovieAPIServiceProvider
     extends
-        $FunctionalProvider<MovieAPIService, MovieAPIService, MovieAPIService>
-    with $Provider<MovieAPIService> {
+        $FunctionalProvider<
+          AsyncValue<MovieAPIService>,
+          MovieAPIService,
+          FutureOr<MovieAPIService>
+        >
+    with $FutureModifier<MovieAPIService>, $FutureProvider<MovieAPIService> {
   MovieAPIServiceProvider._()
     : super(
         from: null,
@@ -32,24 +118,17 @@ final class MovieAPIServiceProvider
 
   @$internal
   @override
-  $ProviderElement<MovieAPIService> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $FutureProviderElement<MovieAPIService> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
-  MovieAPIService create(Ref ref) {
+  FutureOr<MovieAPIService> create(Ref ref) {
     return movieAPIService(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(MovieAPIService value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<MovieAPIService>(value),
-    );
   }
 }
 
-String _$movieAPIServiceHash() => r'1fcc456233061aa0ae60254828e4d2e61c6ba3cf';
+String _$movieAPIServiceHash() => r'0086101593f73d58b3688aa93f9362fe17e74bad';
 
 @ProviderFor(movieViewModel)
 final movieViewModelProvider = MovieViewModelProvider._();
@@ -88,7 +167,7 @@ final class MovieViewModelProvider
   }
 }
 
-String _$movieViewModelHash() => r'b4c76679d04b2ee2457c4c0d80354c1087d7795c';
+String _$movieViewModelHash() => r'8b64539d686cf74ed6881665c96cba31bca9b64a';
 
 @ProviderFor(sharedPrefs)
 final sharedPrefsProvider = SharedPrefsProvider._();

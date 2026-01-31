@@ -3,7 +3,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movieapp/data/database/models/database_models.dart';
-import 'package:movieapp/data/models/favorite.dart';
 import 'package:movieapp/providers.dart';
 import 'package:movieapp/router/app_routes.dart';
 import 'package:movieapp/ui/movie_viewmodel.dart';
@@ -22,13 +21,14 @@ class FavoriteScreen extends ConsumerStatefulWidget {
 
 class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
   late MovieViewModel movieViewModel;
-  List<Favorite> currentFavorites = [];
-  final valueNotifier = ValueNotifier<List<Favorite>>([]);
+  List<DBFavorite> currentFavorites = [];
+  final valueNotifier = ValueNotifier<List<DBFavorite>>([]);
   Sorting selectedSort = Sorting.aToz;
 
   @override
   Widget build(BuildContext context) {
     final movieViewModelAsync = ref.watch(movieViewModelProvider);
+
     return movieViewModelAsync.when(
       error: (e, st) => Text(e.toString()),
       loading: () => const NotReady(),

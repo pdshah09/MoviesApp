@@ -54,7 +54,17 @@ class _MovieDetailState extends ConsumerState<MovieDetail> {
 
   Future getFavorites() async {
     favorites = await movieViewModel.getFavorites();
-    favoriteNotifier.value = isMovieFavorite(widget.movieId);
+    final fav = favorites.firstWhereOrNull(
+      (favorite) => favorite.movieId == widget.movieId,
+    );
+
+    if (fav != null) {
+      currentFavoriteId = fav.id;
+      favoriteNotifier.value = true;
+    } else {
+      currentFavoriteId = -1;
+      favoriteNotifier.value = false;
+    }
   }
 
   bool isMovieFavorite(int id) {
@@ -127,16 +137,20 @@ class _MovieDetailState extends ConsumerState<MovieDetail> {
                                       onFavoriteSelected: () async {
                                         if (favoriteNotifier.value) {
                                           if (currentFavoriteId != -1) {
-                                            movieViewModel.removeFavorite(
+                                            await movieViewModel.removeFavorite(
                                               currentFavoriteId,
                                             );
                                           }
                                           favoriteNotifier.value = false;
+                                          currentFavoriteId = -1;
                                         } else {
-                                          currentFavoriteId = movieDetails.id;
                                           await movieViewModel.saveFavorite(
                                             movieDetails,
                                           );
+
+                                          // reload favorites to get DB id
+                                          await getFavorites();
+
                                           favoriteNotifier.value = true;
                                         }
                                       },
